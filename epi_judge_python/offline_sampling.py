@@ -7,10 +7,23 @@ from test_framework.random_sequence_checker import (
     compute_combination_idx, run_func_with_retries)
 from test_framework.test_utils import enable_executor_hook
 
+import random
+
+
+def py_builtin(k, A):
+    A[:] = random.sample(A, k)
 
 def random_sampling(k: int, A: List[int]) -> None:
-    # TODO - you fill in here.
-    return
+    '''
+    Generate random subset from a list of distinct elements
+    Time: O(n)
+    Space: O(1)
+    '''
+    for i in range(k):
+        r = random.randint(i, len(A)-1) # genenerate random number from [i, n]
+        A[r], A[i] = A[i], A[r] # swap the sampled element to the front
+
+    # A[0:k-1] is the random subset generated
 
 
 @enable_executor_hook

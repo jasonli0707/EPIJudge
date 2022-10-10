@@ -7,8 +7,29 @@ Rect = collections.namedtuple('Rect', ('x', 'y', 'width', 'height'))
 
 
 def intersect_rectangle(r1: Rect, r2: Rect) -> Rect:
-    # TODO - you fill in here.
-    return Rect(0, 0, 0, 0)
+    """return the rectangle formed by intersection of two rectangles r1 & r2
+
+    Args:
+        r1 (Rect): XY-axis aligned rectangle
+        r2 (Rect): XY-axis aligned rectangle
+
+    Returns:
+        Rect: intersection oof r1 and r2
+    """
+
+    x1, y1, w1, h1 = r1
+    x2, y2, w2, h2 = r2
+    xw1, yh1, xw2, yh2 = x1+w1, y1+h1, x2+w2, y2+h2
+
+    if not ((x1<=xw2) and (x2<=xw1) and (y1<=yh2) and (y2<=yh1)): # check if two rectangles intersect or not
+        return Rect(0, 0, -1, -1)
+
+    left = max(x1, x2)
+    bottom = max(y1, y2)
+    right = min(xw1, xw2)
+    top = min(yh1, yh2)
+
+    return Rect(left, bottom, right-left, top-bottom)
 
 
 def intersect_rectangle_wrapper(r1, r2):

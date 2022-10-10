@@ -12,8 +12,24 @@ def zero_one_random():
 
 
 def uniform_random(lower_bound: int, upper_bound: int) -> int:
-    # TODO - you fill in here.
-    return 0
+    """generate a random integer between lower_bound and upper_bound, inclusive, with equal probability
+    , given a binary random number generator
+
+    Time Complexity: O(n) or O(log(a+b-1)) i.e. 2^n - 1 = b - a
+    """
+    diff = upper_bound - lower_bound
+
+    while True: # run until the generated result is within the range [0, diff]
+        n_bits, result = 0, 0
+
+        while (1<<n_bits) - 1 <= diff: # The max number represented by n-bits: 2^(n) - 1 needs to be smaller than diff
+            result = (result<<1) | zero_one_random()
+            n_bits += 1
+
+        if result <= diff: # if the generated result is within the range, then breaks the while loop
+            break
+
+    return result + lower_bound 
 
 
 @enable_executor_hook

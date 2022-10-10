@@ -1,14 +1,45 @@
 import functools
+from re import A
 from typing import List
 
 from test_framework import generic_test
 from test_framework.test_failure import PropertyName, TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+def sort_interleave(A):
+    '''
+    Time: O(nlogn) (for sorting)
+    Space: O(n)
+    '''
+    n = len(A)
+    if n%2!=0: # if odd
+        center = n//2+1
+    else:
+        center = n//2
+    A.sort()
+    B = A[:center] 
+    C = A[center:]
+    A[::2] = B
+    A[1::2] = C
+    return 
+    
 
 def rearrange(A: List[int]) -> None:
-    # TODO - you fill in here.
-    return
+    '''Time O(n), Space O(1)'''
+    for i in range(len(A)-1):
+        if (i % 2==0) and (A[i]>A[i+1]):
+            A[i], A[i+1] = A[i+1], A[i]
+        elif (i%2!=0) and (A[i]<A[i+1]):
+            A[i], A[i+1] = A[i+1], A[i]
+    return 
+
+    
+def simplified_version(A):
+    '''Complexity same as above'''
+    for i in range(len(A)):
+        A[i:i+2] = sorted(A[i:i+2], reverse=i%2) # if even, then reverse=False (sort in ascending); else, reverse=True (sort in descending)
+    return 
+    
 
 
 @enable_executor_hook

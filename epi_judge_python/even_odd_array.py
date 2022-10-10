@@ -7,9 +7,36 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
+def brute_force(x):
+    '''
+    Time: O(n)
+    Space: O(n)
+    '''
+    result = [0]*len(x)
+    even, odd = 0, len(x)-1
+    for e in x:
+        if e%2 == 0:
+            result[even] = e
+            even +=1
+        else:
+            result[odd] = e
+            odd -= 1
+    return result
+
 def even_odd(A: List[int]) -> None:
-    # TODO - you fill in here.
-    return
+    """reorder the entries of an array with even entries appear first
+       Time: O(n)
+       Space: O(1)
+    Args:
+        A (List[int]): modify the array inplace
+    """
+    next_even, next_odd = 0, len(A) - 1
+    while next_even < next_odd:
+        if A[next_even] % 2 == 0: 
+            next_even += 1
+        else:
+            A[next_even], A[next_odd] = A[next_odd], A[next_even]
+            next_odd -= 1
 
 
 @enable_executor_hook

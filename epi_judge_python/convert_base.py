@@ -4,8 +4,7 @@ import functools
 
 def convert_base(num_as_string: str, b1: int, b2: int) -> str:
     '''
-    Time: O(n)
-    Space: O(n)
+    Time: O(n(1+log_b2(b1)))
     e.g. ('615', 7, 13) -> 615 in base 7 = 1A7 in base 13 where [10, ..., 15] is represented by [A, ..., F]
     '''
     is_negative = (num_as_string[0] == '-')

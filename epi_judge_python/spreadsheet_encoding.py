@@ -1,9 +1,14 @@
 from test_framework import generic_test
-
+import functools
+import string
 
 def ss_decode_col_id(col: str) -> int:
-    # TODO - you fill in here.
-    return 0
+    '''
+    Time: O(n)
+    Similar to question 6.1 i.e. base26 string & int conversion but starting with A=1
+    '''
+    
+    return functools.reduce(lambda running_sum, c: running_sum*26 + (string.ascii_uppercase.index(c.upper())+1), col, 0)
 
 
 if __name__ == '__main__':

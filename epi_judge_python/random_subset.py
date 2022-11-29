@@ -35,11 +35,15 @@ def random_subset(n: int, k: int) -> List[int]:
     3rd: i=2, r=5, arr[2]<=>arr[5], {(0,2), (1,0) (2,5) | (5,1)}
     return [2, 0, 5]
     '''
-    d = {}
+    history = {}
     for i in range(k):
-        rand_idx  = random.randint(0, n-1)
+        rand_idx  = random.randint(i, n-1) # place to swap with (without replacement)
+        mapped_item = history.get(rand_idx, rand_idx) # item store in rand-idx of the imagingary array
+        current_item = history.get(i, i) # item stored in i-th index of the imaginary array
+        history[i] = mapped_item
+        history[rand_idx] = current_item
 
-    return brute_force(n, k)
+    return [history[i] for i in range(k)]
 
 
 @enable_executor_hook

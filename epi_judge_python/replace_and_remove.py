@@ -6,8 +6,33 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def replace_and_remove(size: int, s: List[str]) -> int:
-    # TODO - you fill in here.
-    return 0
+    '''
+    Time: O(n)
+    Space: O(1)
+    '''
+
+    # forward pass overwriting 'b' and count number of 'a'
+    write_idx = a_count = 0
+    for i in range(size):
+        if s[i] != 'b':
+            s[write_idx] = s[i]
+            write_idx += 1
+        if s[i] == 'a':
+            a_count += 1
+        
+    # backward pass replacing 'a' with 'd' 
+    curr_idx = write_idx
+    write_idx += a_count - 1 # writing from behind
+    final_size = write_idx + 1
+    for i in reversed(range(curr_idx)):
+        if s[i] == 'a':
+            s[write_idx-1:write_idx+1] = 'dd'
+            write_idx -= 2
+        else:
+            s[write_idx] = s[i]
+            write_idx -= 1
+
+    return final_size
 
 
 @enable_executor_hook

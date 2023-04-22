@@ -5,8 +5,28 @@ from test_framework import generic_test
 
 
 def even_odd_merge(L: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+    if not L:
+        return L
+
+    even_head, odd_head = ListNode(0), ListNode(0) 
+    even_tail, odd_tail = even_head, odd_head
+
+    while L and L.next:
+        even_node, odd_node, temp = L, L.next, L.next.next
+        even_tail.next = even_node
+        odd_tail.next = odd_node
+        even_node.next, odd_node.next = None, None
+        even_tail = even_tail.next
+        odd_tail = odd_tail.next
+        L = temp
+
+    if L: # if the length of list L is odd, appends the last element to the end of even list
+        even_tail.next = L
+        even_tail = even_tail.next 
+
+    even_tail.next = odd_head.next # merge two lists
+
+    return even_head.next
 
 
 if __name__ == '__main__':

@@ -28,9 +28,29 @@ def even_odd_merge(L: ListNode) -> Optional[ListNode]:
 
     return even_head.next
 
+    
+def even_odd_merge_sol2(L):
+        if not (L and L.next):
+            return L
+
+        even, odd = L, L.next       
+        odd_head = odd
+
+        while odd and odd.next:
+            even.next = odd.next
+            even = even.next
+
+            odd.next = even.next
+            odd = odd.next
+
+        
+        even.next = odd_head
+
+        return L
+
 
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('even_odd_list_merge.py',
                                        'even_odd_list_merge.tsv',
-                                       even_odd_merge))
+                                       even_odd_merge_sol))

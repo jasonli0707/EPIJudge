@@ -8,10 +8,25 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def lca(tree: BinaryTreeNode, node0: BinaryTreeNode,
-        node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
+def lca(tree: BinaryTreeNode, node0: BinaryTreeNode, node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
+    """compute the LCA of two nodes in a binary tree 
+       Time: O(n)
+       Space: O(h)
+    """
+
+    if not tree:
+        return
+    
+    if tree.data == node0.data or tree.data == node1.data:
+        return tree
+    
+    left = lca(tree.left, node0, node1)
+    right = lca(tree.right, node0, node1)
+
+    if left and right:
+        return tree # if both left and right are nodes => common ancestor 
+    else:
+        return left or right # either one of them returns a node or both return null
 
 
 @enable_executor_hook

@@ -8,10 +8,32 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def lca(node0: BinaryTreeNode,
-        node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
+def lca(node0: BinaryTreeNode, node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
+    """find the lowest common ancestor of two nodes with parent field
+       Time: O(h)
+       Space: O(1)
+    """
+    def get_depth(node):
+        depth = 0
+        while node:
+            node = node.parent
+            depth += 1
+        return depth
+
+    depth0, depth1 = get_depth(node0), get_depth(node1)
+
+    shallow, deep = (node0, node1) if depth0 < depth1 else (node1, node0)
+
+    depth_diff = abs(depth0 - depth1)
+
+    for _ in range(depth_diff): 
+        deep = deep.parent
+
+    while shallow != deep:
+        shallow = shallow.parent
+        deep = deep.parent
+
+    return shallow
 
 
 @enable_executor_hook

@@ -11,10 +11,48 @@ class BinaryTreeNode:
         self.right = None
         self.next = None  # Populates this field.
 
+        
+def brute_force(tree: BinaryTreeNode):
+    """Works for general binary tree
+    Time: O(n)
+    Space: O(m) (i.e. max number of nodes at any single depth stored in curr_depth_nodes)
+    """
+    if not tree:
+        return
+
+    curr_depth_nodes = [tree]
+
+    while curr_depth_nodes:
+        m = len(curr_depth_nodes)
+        if m == 1:
+            curr_depth_nodes = [child for child in (curr_depth_nodes[0].left, curr_depth_nodes[0].right) if child]
+            continue
+
+        for i in range(m-1):
+            curr_depth_nodes[i].next = curr_depth_nodes[i+1]
+
+        curr_depth_nodes = [child for node in curr_depth_nodes for child in (node.left, node.right) if child]
+
 
 def construct_right_sibling(tree: BinaryTreeNode) -> None:
-    # TODO - you fill in here.
-    return
+    """Only works for perfect binary tree
+    Time: O(n)
+    Space: O(1)
+    """
+
+    def level_next_traverse(node: BinaryTreeNode):
+
+        while node and node.left:
+            node.left.next = node.right
+            node.right.next = node.next.left if node.next else None
+            node = node.next
+        return
+
+    while tree and tree.left:
+        level_next_traverse(tree)
+        tree = tree.left
+
+
 
 
 def traverse_next(node):

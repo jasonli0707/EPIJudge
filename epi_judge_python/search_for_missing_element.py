@@ -9,10 +9,23 @@ DuplicateAndMissing = collections.namedtuple('DuplicateAndMissing',
 
 
 def find_duplicate_missing(A: List[int]) -> DuplicateAndMissing:
-    # TODO - you fill in here.
-    return DuplicateAndMissing(0, 0)
+    """
+    Time: O(n)
+    Space: O(1)
+    """
 
+    i = 0
+    while i < len(A):
+        val = A[i]
+        if val == i or A[val] == val:
+            i += 1
+        else:
+            A[i], A[val] = A[val], A[i] 
 
+    for i, x in enumerate(A):
+        if i != x:
+            return DuplicateAndMissing(x, i)
+ 
 def res_printer(prop, value):
     def fmt(x):
         return 'duplicate: {}, missing: {}'.format(x[0], x[1]) if x else None

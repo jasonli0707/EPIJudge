@@ -8,6 +8,30 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
+def lca_hash_sol(node0, node1):
+    """
+    Trade storage with time
+    Time & Space: O(D0 + D1)
+    Worst Case: root as LCA => O(h) Time & Space
+    """
+
+    visited = set()
+
+    while node0 or node1:
+        if node0:
+            if node0 in visited:
+                return node0
+            visited.add(node0)
+            node0 = node0.parent
+
+        if node1:
+            if node1 in visited:
+                return node1
+            visited.add(node1)
+            node1 = node1.parent
+        
+
+
 def lca(node0: BinaryTreeNode, node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
     """find the lowest common ancestor of two nodes with parent field
        Time: O(h)
@@ -39,7 +63,7 @@ def lca(node0: BinaryTreeNode, node1: BinaryTreeNode) -> Optional[BinaryTreeNode
 @enable_executor_hook
 def lca_wrapper(executor, tree, node0, node1):
     result = executor.run(
-        functools.partial(lca, must_find_node(tree, node0),
+        functools.partial(lca_hash_sol, must_find_node(tree, node0),
                           must_find_node(tree, node1)))
 
     if result is None:

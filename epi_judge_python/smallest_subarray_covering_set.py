@@ -11,14 +11,13 @@ Subarray = collections.namedtuple('Subarray', ('start', 'end'))
 
 def find_smallest_subarray_covering_set(paragraph: List[str],
                                         keywords: Set[str]) -> Subarray:
-
     """
     Time: O(n) size of paragraph
     Space: O(m) size of keywords
     """
 
     target = collections.Counter(keywords) 
-    remaining = len(target)
+    remaining = sum(target.values())
     result = Subarray(-1, -1)
 
     start = 0

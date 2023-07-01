@@ -1,4 +1,5 @@
 import random
+import heapq
 
 # ref: https://realpython.com/sorting-algorithms-python/#measuring-efficiency-with-big-o-notation
 
@@ -117,11 +118,25 @@ def quick_sort(A):
     return recursive_helper(l, r)
 
 
+def heap_sort(A):
+    """
+    Time: O(nlogn)
+    Space: O(1)
+    """
+    heapq.heapify(A)
+    result = []
+
+    while A:
+        result.append(heapq.heappop(A))
+    
+    return result
+
+
 if __name__ == '__main__':
     a = [random.randint(1, 100) for _ in range(10)]
     ans = sorted(a)
     print(ans)
-    quick_sort(a)
+    a = heap_sort(a)
     print(a)
     print(a == ans)
     

@@ -7,10 +7,36 @@ from test_framework.test_utils import enable_executor_hook
 
 NUM_PEGS = 3
 
-
 def compute_tower_hanoi(num_rings: int) -> List[List[int]]:
-    # TODO - you fill in here.
-    return []
+    """
+    Time: O(2^n)
+    Space: O(n)
+    """
+    def recursive_wrapper(num_rings, from_peg, to_peg, use_peg):
+        if num_rings>0:
+            recursive_wrapper(num_rings-1, from_peg, use_peg, to_peg)
+            pegs[to_peg].append(pegs[from_peg].pop())
+            result.append([from_peg, to_peg])
+            recursive_wrapper(num_rings-1, use_peg, to_peg, from_peg)
+
+    result = []
+    pegs = [list(reversed(range(1, num_rings+1)))] + [[] for _ in range(1, NUM_PEGS)] # e.g. [[3, 2, 1], [], []]
+    recursive_wrapper(num_rings, 0, 1, 2)
+    return result
+
+def compute_tower_hanoi_iter(num_rings):
+    stack = []
+    moves = []
+    stack.append((num_rings, 0, 1, 2))
+    while stack:
+        n, from_peg, to_peg, use_peg = stack.pop()
+        if n == 1:
+            moves.append((from_peg, to_peg))
+        else:
+            stack.append((n - 1, use_peg, to_peg, from_peg))
+            stack.append((1, from_peg, to_peg, use_peg))
+            stack.append((n - 1, from_peg, use_peg, to_peg))
+    return moves
 
 
 @enable_executor_hook

@@ -25,26 +25,28 @@ def compute_tower_hanoi(num_rings: int) -> List[List[int]]:
     return result
 
 def compute_tower_hanoi_iter(num_rings):
-    stack = []
-    moves = []
-    stack.append((num_rings, 0, 1, 2))
-    while stack:
-        n, from_peg, to_peg, use_peg = stack.pop()
-        if n == 1:
-            moves.append((from_peg, to_peg))
-        else:
-            stack.append((n - 1, use_peg, to_peg, from_peg))
-            stack.append((1, from_peg, to_peg, use_peg))
-            stack.append((n - 1, from_peg, use_peg, to_peg))
-    return moves
+    pegs = [list(reversed(range(1, num_rings + 1)))
+            ] + [[] for _ in range(1, NUM_PEGS)]
 
+    stack = [(num_rings, 0, 1, 2)]
+    result = []
+    while stack:
+        n, from_peg, to_peg, use_ped = stack.pop()
+        if n == 1:
+            pegs[to_peg].append(pegs[from_peg].pop())
+            result.append((from_peg, to_peg))
+        else:
+            stack.append((n-1, use_ped, to_peg, from_peg))
+            stack.append((1, from_peg, to_peg, use_ped))
+            stack.append((n-1, from_peg, use_ped, to_peg))
+    return result
 
 @enable_executor_hook
 def compute_tower_hanoi_wrapper(executor, num_rings):
     pegs = [list(reversed(range(1, num_rings + 1)))
             ] + [[] for _ in range(1, NUM_PEGS)]
 
-    result = executor.run(functools.partial(compute_tower_hanoi, num_rings))
+    result = executor.run(functools.partial(compute_tower_hanoi_iter, num_rings))
 
     for from_peg, to_peg in result:
         if pegs[to_peg] and pegs[from_peg][-1] >= pegs[to_peg][-1]:
